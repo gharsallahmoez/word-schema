@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package word;
+option go_package = "./word";
+
+/*-----------------------------------------------------------------
+                word Model
+--------------------------------------------------------------------*/
+message Word {
+  string id = 1;
+  string word = 2;
+}
+
+/*-----------------------------------------------------------------
+                word service requests
+--------------------------------------------------------------------*/
+// Add word request
+message AddWordReq {
+  Word Word = 1;
+  string TraceID = 2;
+}
+
+// Get random word request
+message GetRandomWordReq {
+  string TraceID = 1;
+}
+
+// Seach Word Request
+message SearchWordReq {
+  string Prefix = 1;
+  string TraceID = 2;
+}
+
+/*-----------------------------------------------------------------
+                word service responses
+--------------------------------------------------------------------*/
+
+// Add new word response.
+message WordRes {
+  Word Word = 1;
+  uint64 TimeStamp = 2;
+}
+
+// Search word response
+message SearchWordRes {
+  repeated string words = 1;
+  uint64 TimeStamp = 2;
+}
+
+/*-----------------------------------------------------------------
+                word service
+--------------------------------------------------------------------*/
+
+service WordService {
+  rpc CreateWord (AddWordReq) returns (WordRes) {};
+  rpc GetRandomWord (GetRandomWordReq) returns (WordRes) {};
+  rpc SearchWord (SearchWordReq) returns (SearchWordRes) {};
+}
